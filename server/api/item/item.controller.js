@@ -42,10 +42,10 @@ exports.getAll = function(req, res) {
 // Creates a new thing in the DB.
 exports.create = function(req, res) {
   console.log('INFO - ' +'POST /api/things/');
-  db.insert(req.body, function(err, thing) {
+  db.insert(req.body, function(err, doc) {
     console.log('INFO - ' +'POST /api/things','Added to DB');
     if(err) { return handleError(res, err); }
-    return res.json(201, thing);
+    return res.status(201).send(doc)
   });
 };
 

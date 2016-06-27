@@ -29,7 +29,7 @@ var cloudantId;
 function setupDbWithAddItem(payload) {
   var deferred = q.defer();
   request(app)
-    .post('/api/things')
+    .post('/api/items')
     .send(payload)
     .expect(201)
     .end(function (err, res) {
@@ -48,7 +48,7 @@ function isCloudantId(id){
 };
 describe('thing api', function () {
 
-  describe('POST /api/things (addThing)', function () {
+  describe('POST /api/items (addThing)', function () {
     // delete db once
     var dbSetup;
     beforeEach(function (done) {
@@ -65,14 +65,14 @@ describe('thing api', function () {
       }
     });
 
-    it('the database should start with no things', function (done) {
+    it('the database should start with no items', function (done) {
       // test only valid while there are no design docs
       // and not valid in production when data exists
       thingDb.list(function (err, body) {
         if (err) return done(err);
-        expect(body.total_rows).to.be(0);
-        expect(body.offset).toBe(0);
-        expect(body.rows.length).toBe(0);
+        expect(body.total_rows).to.equal(0);
+        expect(body.offset).to.equal(0);
+        expect(body.rows.length).to.equal(0);
         done();
       });
 
@@ -80,10 +80,11 @@ describe('thing api', function () {
 
     it('should respond with 201 Created', function (done) {
       request(app)
-        .post('/api/things')
+        .post('/api/items')
         .send(seedData[0])
         .expect(201)
         .end(function (err, res) {
+          //console.log(res)
           if (err) return done(err);
           done();
         });
@@ -91,19 +92,19 @@ describe('thing api', function () {
 
     it('should respond with JSON array with valid JSON', function (done) {
       request(app)
-        .post('/api/things')
+        .post('/api/items')
         .send(seedData[0])
         .expect(201)
         .end(function (err, res) {
           if (err) return done(err);
-          expect(res.body).toEqual(jasmine.any(Object));
+          expect(res.body).to.be.an('object');
           done();
         });
     });
 
     it('should respond with Content-Type JSON', function (done) {
       request(app)
-        .post('/api/things')
+        .post('/api/items')
         .send(seedData[0])
         .expect(201)
         .expect('Content-Type', /json/)
@@ -115,22 +116,23 @@ describe('thing api', function () {
 
     it('should respond with a valid CloudantID', function (done) {
       request(app)
-        .post('/api/things').set('ix-channel', 'branch')
+        .post('/api/items')
         .send(seedData[0])
         .expect(201)
         .end(function (err, res) {
           if (err) return done(err);
           for (var index in res.body) {
-            expect(res.body.id.length).toBe(32);
+            expect(res.body.id.length).to.equal(32);
           }
           done();
         });
     });
     //SOME validator
     it('should respond with 400 with malformed JSON', function (done) {
+      var malformed = '{json:""}';
       request(app)
-        .post('/api/things')
-        .send(seedData[0])
+        .post('/api/items')
+        .send(malformed)
         .expect(400)
         .end(function (err, res) {
           if (err) return done(err);
@@ -141,7 +143,7 @@ describe('thing api', function () {
     //TODO - enable test
     //it('should not allow script tags into the db', function (done) {
     //  request(app)
-    //    .post('/api/things')
+    //    .post('/api/items')
     //    .send(PayloadBuilder.scriptTagJSON())
     //    .expect(400)
     //    .end(function (err, res) {
@@ -188,10 +190,10 @@ describe('thing api', function () {
   //    },done);
   //  });
   //
-  //  describe('GET /api/things/:id (show)', function () {
+  //  describe('GET /api/items/:id (show)', function () {
   //    it('should respond with JSON thing object', function (done) {
   //      request(app)
-  //        .get('/api/things/' + cloudantId)
+  //        .get('/api/items/' + cloudantId)
   //        .expect(200)
   //        .end(function (err, res) {
   //          if (err) return done(err);
@@ -205,14 +207,14 @@ describe('thing api', function () {
   //    it('should update db when name changed', function (done) {
   //      var newData = payloadBuilder.withSomeData('newData').build();
   //      request(app)
-  //        .put('/api/things/' + cloudantId)
+  //        .put('/api/items/' + cloudantId)
   //        .send(newData)
   //        .expect(200)
   //        .expect('Content-Type', /json/)
   //        .end(function (err, res) {
   //          if (err) return done(err);
   //          request(app)
-  //            .get('/api/things/' + cloudantId)
+  //            .get('/api/items/' + cloudantId)
   //            .expect(200)
   //            .end(function (err, res) {
   //              if (err) return done(err);
@@ -223,16 +225,16 @@ describe('thing api', function () {
   //    });
   //  });
   //
-  //  describe('DELETE /api/things/:id (delete)', function () {
+  //  describe('DELETE /api/items/:id (delete)', function () {
   //    it('should remove thing obj associated to id from db', function (done) {
   //      request(app)
-  //        .delete('/api/things/' + cloudantId)
+  //        .delete('/api/items/' + cloudantId)
   //        .expect(200)
   //        .expect('Content-Type', /json/)
   //        .end(function (err, res) {
   //          if (err) return done(err);
   //          request(app)
-  //            .get('/api/things/' + cloudantId)
+  //            .get('/api/items/' + cloudantId)
   //            .expect(404)
   //            .end(function (err, res) {
   //              if (err) return done(err);
