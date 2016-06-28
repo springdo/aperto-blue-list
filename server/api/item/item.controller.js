@@ -18,32 +18,36 @@ if (config && config.cloudant
 
 
 exports.index = function(req, res) {
-  console.log('INFO - ' +'GET /api/things/'+req.params.id);
+  if(!req.params.id) { return handleError(res, {statusCode : 400}); }
+  console.log('INFO - ' +'GET /api/items/'+req.params.id);
   db.get(req.params.id, function(err, doc) {
     //if (err) { return handleError(res, err); }
-    if(!doc || err) { return res.send(404, err); }
-    return res.status(201).send(doc)
+    if(!doc || err) {
+      return handleError(res, {statusCode : 404})
+    };
+    return res.status(200).send(doc)
   });
 };
 
 exports.getAll = function(req, res) {
-  console.log('INFO - ' +'GET /api/things');
+  console.log('INFO - ' +'GET /api/items');
   db.list({include_docs: true },function(err, body) {
     var dbLog = [];
-    if (!err) {
+    if (err) {return handleError(res, err)}
+    else {
       body.rows.forEach(function(item) {
         dbLog.push(item.doc);
       });
+      return res.status(200).send(dbLog)
     }
-    return res.status(200).send(dbLog)
   });
 };
 
 // Creates a new thing in the DB.
 exports.create = function(req, res) {
-  console.log('INFO - ' +'POST /api/things/');
+  console.log('INFO - ' +'POST /api/items/');
   db.insert(req.body, function(err, doc) {
-    console.log('INFO - ' +'POST /api/things','Added to DB');
+    console.log('INFO - ' +'POST /api/items','Added to DB');
     if(err) { return handleError(res, err); }
     return res.status(201).send(doc)
   });
@@ -51,10 +55,10 @@ exports.create = function(req, res) {
 
 
 exports.update = function(req, res) {
-  console.log('INFO - ' +'PUT /api/things/:id');
+  console.log('INFO - ' +'PUT /api/items/:id');
   if(!req.params.id) {
-    console.log('WARN - ' +'PUT /api/things/:id no req params');
-    return res.send(404);
+    console.log('WARN - ' +'PUT /api/items/:id no req params');
+    return handleError(res, {statusCode : 400})
   }
   db.insert(req.body, function (err, doc) {
     if (err) { return handleError(res, err); }
@@ -65,17 +69,17 @@ exports.update = function(req, res) {
 
 
 exports.destroy = function(req, res) {
+  if(!req.params.id) { return handleError(res, {statusCode : 400}); }
   var id = req.params.id;
   db.get(id, {revs_info: true}, function (err, doc) {
     if (err) { return handleError(res, err); }
-    if(!req.params.id) { return res.send(404); }
     if (!err) {
       db.destroy(doc._id, doc._rev, function (err) {
         // Handle response
         if (err) {
           return handleError(res, err);
         } else {
-          return res.status(205).send({ok: true})
+          return res.status(204).send({ok: true})
         }
       });
     }
@@ -83,7 +87,7 @@ exports.destroy = function(req, res) {
 };
 
 function handleError(res, err) {
-  console.log('ERROR - ' + 'handleError /api/things', err);
+  console.log('ERROR - ' + 'handleError /api/items', err);
   if (!err.statusCode){
     err.statusCode = 500;
   }
@@ -97,7 +101,7 @@ function handleError(res, err) {
     if (err.message){
       error404.message = err.message;
     }
-    res.send(error404.code, error404);
+    res.status( error404.code).send(error404)
   } else if (err.statusCode === 400) {
     var error400 = {
       "code": 400,
@@ -108,7 +112,7 @@ function handleError(res, err) {
     if (err.message){
       error400.message = err.message;
     }
-    res.send(error400.code, error400);
+    res.status( error400.code).send(error400)
   } else {
     var error500 = {
       "code": 500,
@@ -119,7 +123,6 @@ function handleError(res, err) {
     if (err.message){
       error500.message = err.message;
     }
-    res.send(error500.code, error500);
-
+    res.status( error500.code).send(error500)
   }
 }
