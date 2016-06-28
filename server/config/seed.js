@@ -21,8 +21,8 @@ if (config && config.cloudant.cloudantNoSQLDB[0] && config.cloudant.cloudantNoSQ
 }
 
 //[{id, rev, item, details,status},{id, rev, item, details,status}]?
-var seedData = [{ item: 'Buy milk', details : 'Go to the shop on the corner as ....',complete:true},
-  { item: "Have a poop", "details" : "Get some toilet paper for this one...","complete":false}];
+var seedData = [{ title: 'Buy milk', completed :true},
+  { title: "Have a poop", completed :false}];
 
 if (config.seedDB){
   console.log("INFO - destroying db");

@@ -7,8 +7,8 @@ var config = require('./../../config/environment/index');
 
 var dbName = config.name + '-thing';
 var cloudant, thingDb;
-var seedData = [{ item: 'Buy milk', details : 'Go to the shop on the corner as ....',complete:true},
-  { item: "Have a poop", "details" : "Get some toilet paper for this one...","complete":false}];
+var seedData = [{ title: 'Buy milk', completed :true},
+  { title: "Have a poop", completed :false}];
 
 if (config && config.cloudant
   && config.cloudant.cloudantNoSQLDB[0]
