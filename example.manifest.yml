@@ -3,7 +3,12 @@
 applications:
 - name: aperto-blue-list
   memory: 512M
+  disk_quota: 512M
+  host: aperto-blue-list
+  domain: eu-gb.mybluemix.net
+  command: node server/app.js
+  timeout: 80
   instances: 1
-#  buildpack: https://github.com/cloudfoundry/java-buildpack
+#  buildpack: nodejs_buildpack
   env:
     NODE_ENV: development
