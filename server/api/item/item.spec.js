@@ -231,7 +231,7 @@ describe('thing api', function () {
       });
 
       it('Should return json type matching updated data', function (done) {
-        var newData = { title: 'Buy even more milk', completed :false, _id : id, _rev:rev};
+        var newData = { title: 'Buy even more milk', completed :false, id : id, rev:rev};
         request(app)
           .put('/api/items/' + id)
           .send(newData)
