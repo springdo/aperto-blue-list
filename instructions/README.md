@@ -1,4 +1,5 @@
-#What we wanna go through
+#Aperto | IBN Bluemix
+
 ##Bluemix exploring
  - Orgs
  - Spaces
@@ -16,6 +17,7 @@
  - Running App Locally  
   - export VCAP
  - Debug in the cloud (https://console.ng.bluemix.net/docs/develop/bluemixlive.html) 
+ 
 ####Challenge!!
  `Deploy the sample application to Bluemix using the CLI`
 ---
@@ -23,11 +25,12 @@
 ##Deploying manually via CLI
  - yml to define STUFF
  - https://console.ng.bluemix.net/docs/manageapps/depapps.html#deployingapps
+ 
 ####Challenge!!
-  ```
+```
   1) The app is going to seed all the time; how do we fix it? 
   2) Ensure there is no downtime when deploying the application
-    ```
+```
 
 ---
 ##Automated (through DevOps Pipeline)
