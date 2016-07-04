@@ -66,6 +66,8 @@ exports.update = function(req, res) {
     console.log('WARN - ' +'PUT /api/items/:id no req params');
     return handleError(res, {statusCode : 400})
   }
+  req.body._id = req.body.id;
+  req.body._rev = req.body.rev;
   db.insert(req.body, function (err, doc) {
     if (err) { return handleError(res, err); }
     return res.status(200).send(doc)
