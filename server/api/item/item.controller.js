@@ -36,6 +36,12 @@ exports.getAll = function(req, res) {
     if (err) {return handleError(res, err)}
     else {
       body.rows.forEach(function(item) {
+        item.doc.id = item.doc._id;
+        item.doc.rev = item.doc._rev;
+
+        delete item.doc._id;
+        delete item.doc._rev;
+        console.log(item.doc)
         dbLog.push(item.doc);
       });
       return res.status(200).send(dbLog)
