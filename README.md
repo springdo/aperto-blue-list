@@ -20,6 +20,10 @@
   }]
 }
 ```
+This should be encapsulated with a single quote on each side.
+```
+export VCAP_SERVICES='{ "cloudantNoSQLDB": [ { "name": "Cloudant NoSQL DB-ur", "label": "cloudantNoSQLDB", "plan": "Shared", "credentials": { "username": "admin", "password": "admin", "host": "host.cloudant.com","port": 443,"url": "https://username:password@host.cloudant.com"}}]}'
+```
 
 ### Developing
 
@@ -35,4 +39,4 @@ Run `grunt build` for building and `grunt serve` for preview.
 
 ## Testing
 
-Running `npm test` will run the unit tests with karma.
+Running `grunt test` will run the unit tests with karma.

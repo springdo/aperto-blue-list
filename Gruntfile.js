@@ -183,7 +183,7 @@ module.exports = function (grunt) {
 
     mochaTest: {
       options: {
-        reporter: 'spec',
+        reporter: 'xunit-file',
         require: 'mocha.conf.js',
         timeout: 5000 // set default mocha spec timeout
       },
