@@ -20,8 +20,8 @@
  
 ####Challenge!!
  `Deploy the sample application to Bluemix using the CLI`
+ 
 ---
-
 ##Deploying manually via CLI
  - yml to define STUFF
  - https://console.ng.bluemix.net/docs/manageapps/depapps.html#deployingapps
