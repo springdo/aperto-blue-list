@@ -1,0 +1,9 @@
+#https://console.ng.bluemix.net/docs/manageapps/depapps.html#appmanifest
+---
+applications:
+- name: aperto-blue-list
+  memory: 512M
+  instances: 1
+#  buildpack: https://github.com/cloudfoundry/java-buildpack
+  env:
+    NODE_ENV: development
