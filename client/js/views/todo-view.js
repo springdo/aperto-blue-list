@@ -117,7 +117,6 @@ var app = app || {};
 
 		// Remove the item, destroy the model from *localStorage* and delete its view.
 		clear: function () {
-      this.model.set({'idAttribute': this.model.get('_id'), 'id' : this.model.get('_id') });
 			this.model.destroy();
 		}
 	});
