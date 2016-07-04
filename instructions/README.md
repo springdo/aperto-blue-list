@@ -21,9 +21,11 @@
  
 ####Challenge!!
 ```
-  1) Create a new Cloudant instance through the CLI
-  2) Deploy the sample application to Bluemix using the CLI
-  3) Up the amount of memory on the app through the UI, then redeploy
+  1) cf login | change api | change space / org 
+  2) Create a new Cloudant instance through the CLI
+  3) Install a plugin through the cli
+  4) cf push the application 
+  5) Get application logs from running app.
 ```
  
 ---
